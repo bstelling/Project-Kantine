@@ -3,8 +3,7 @@ public class Artikel {
     private String naam;
     private int prijs;
 
-    //met initialisatie wordt bedoeld dat je iets initialiseert, wat voor langere tijd houdbaar is
-    // en declaratie is een bewering die waar of onwaar is.
+    //  declaratie die declareert iets en initialisatie maak je iets aan om later te laten declareren.
 
     public Artikel(String naam, int prijs) {
 
