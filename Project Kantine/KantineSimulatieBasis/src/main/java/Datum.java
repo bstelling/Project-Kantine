@@ -3,104 +3,126 @@ public class Datum {
 	private int dag;
 	private int maand;
 	private int jaar;
-	private boolean isSchrikkelJaar;
 
-
-	public Datum() {
-		this.dag = 0;
-		this.maand = 0;
-		this.jaar = 0;
-	}
 	/**
 	 * Constructor
+	 *
 	 */
 	public Datum(int dag, int maand, int jaar){
-
+		if(bestaatDatum(dag, maand, jaar)){
+			this.dag = dag;
+			this.maand = maand;
+			this.jaar = jaar;
+		}
 	}
 
 
-	//setter voor dag
+	/**
+	 * Setter voor de dag.
+	 *
+	 * @param dag
+	 */
 	public void setDag(int dag) {
 		this.dag = dag;
 	}
 
-	//setter voor maand
+	/**
+	 * Setter  voor de maand.
+	 *
+	 * @param maand
+	 */
 	public void setMaand(int maand) {
 		this.maand = maand;
 	}
 
-	//setter voor Jaar
+	/**
+	 * Setter voor het jaar.
+	 *
+	 * @param jaar
+	 */
 	public void setJaar(int jaar) {
 		this.jaar = jaar;
 	}
 
-	//getter voor Dag
+	/**
+	 * Getter voor de dag.
+	 *
+	 * @return dag
+	 */
 	public int getDag() {
 		return dag;
 	}
 
-	//getter voor Maand
+
+	/**
+	 * Getter voor de maand.
+	 *
+	 * @return maand
+	 */
 	public int getMaand() {
 		return maand;
 	}
 
-	//getter voor Jaar
+	/**
+	 * Getter voor het jaar.
+	 *
+	 * @return jaar
+	 */
 	public int getJaar() {
 		return jaar;
 	}
 
-	public boolean bestaatDatum(int dag, int maand, int jaar) {
-		boolean bestaatDatum = false;
-			if(jaar >= 1900 && jaar <= 2100){
-				if (maand>=1 && maand<=12){
-					if (dag>=1 && dag<=31){
-						if (maand ==2) {
-							if (checkSchrikkeljaar(jaar) && dag<= 29) this.dag = dag;
-							else if (dag<= 28) this.dag=dag;
+	/**
+	 * Boolean methode om uit te zoeken of een jaar een schrikkeljaar is of niet.
+	 *
+	 * @param jaar dat gecheckt wordt
+	 * @return true of false afhankelijk van schrikkeljaar of geen schrikkeljaar.
+	 */
+	public boolean isSchrikkelJaar(int jaar){
+		if((jaar % 400 == 0) && (jaar % 4 == 0)){
+			return true;
+		}
+			return false;
+	}
 
-						}
-						else if ( (maand<= 6 && maand%2==0 && dag <30) ||
-						(maand<=7 && maand%2==1 )	||
-						(maand>=8 && maand%2==0 ) ||
-								(maand>= 9 && maand%2==1 && dag<=30)) this.dag = dag;
-						else {
-							this.dag = 0;
-						}
-
-
+	/**
+	 * Methode die controleert of een datum bestaat, e.g 30 februari 2000 bestaat niet.
+	 * @param dag
+	 * @param maand
+	 * @param jaar
+	 * @return of de datum bestaat of niet.
+	 */
+	public boolean bestaatDatum(int dag, int maand, int jaar){
+		if((dag >= 1) && (maand >= 1 && maand <= 12) && (jaar >= 1900 && jaar <= 2100)) {
+			switch(maand){
+				case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+					if(dag <= 31){
+						return true;
 					}
-					else{ this.dag = 0;}
-			}
-				else { this.maand = 0;}
+				case 2:
+					if(isSchrikkelJaar(jaar)) {
+						if(dag <= 29) {
+							return true;
+						}
+					}
+					else if(dag <= 28) {
+						return true;
+					}
 
+				case 4: case 6: case 9: case 11:
+					if(dag <= 30){
+						return true;
+					}
+			}
 		}
-			else {this.jaar = 0;}
-		bestaatDatum = true;
-		return bestaatDatum;
+		return false;
 	}
-
-	public boolean checkSchrikkeljaar(int jaar) {
-		this.jaar = jaar;
-		if(jaar % 4 == 0) {
-			if((jaar % 100 == 0) && (jaar % 400 != 0 )) {
-				this.isSchrikkelJaar = false;
-			}
-			else {
-				this.isSchrikkelJaar = true;
-			}
-		}
-			else {
-			this.isSchrikkelJaar = false;
-		}
-		return this.isSchrikkelJaar;
-	}
-
 
 
 	/**
-	 * Getter voor Sting weergave van datum
+	 * Getter die de datum retourneert als String.
 	 *
-	 * @return Geboortedatum
+	 * @return Geboortedatum als String
 	 */
 	public String getDatumAsString() {
 		// TODO
