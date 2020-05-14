@@ -6,11 +6,29 @@ public class Persoon {
     private Datum geboortedatum;
     private char geslacht;
 
+    /**
+     * Constructor
+     */
+    public Persoon(int BSN, String voornaam, String achternaam, Datum geboortedatum, char geslacht) {
+        this.BSN = BSN;
+        this.voornaam = voornaam;
+        this.achternaam = achternaam;
+        this.geboortedatum = geboortedatum;
+        setGeslacht(geslacht);
+    }
+
+    /**
+     * Parameterloze constructor met foute waarden.
+     */
+    public Persoon() {
+        this.geboortedatum = new Datum(34, 1, 1997);
+        this.geslacht = 'K';
+    }
 
     /**
      * Methode om BSN te setten.
      *
-     * @param BSN
+     * @param BSN Burgerservicenummer
      */
     public void setBSN(int BSN) {
         this.BSN = BSN;
@@ -19,7 +37,7 @@ public class Persoon {
     /**
      * Setter om de voornaam in te stellen.
      *
-     * @param voornaam
+     * @param voornaam voornaam van de persoon
      */
     public void setVoornaam(String voornaam) {
         this.voornaam = voornaam;
@@ -28,7 +46,7 @@ public class Persoon {
     /**
      * Setter om de achternaam in te stellen.
      *
-     * @param achternaam
+     * @param achternaam achternaam van de persoon
      */
     public void setAchternaam(String achternaam) {
         this.achternaam = achternaam;
@@ -37,20 +55,19 @@ public class Persoon {
     /**
      * Setter om de geboortedatum in te stellen.
      *
-     * @param geboortedatum
+     * @param geboortedatum geboortedatum van de persoon
      */
     public void setGeboortedatum(Datum geboortedatum) {
         this.geboortedatum = geboortedatum;
     }
 
     /**
-     * Setter om geslacht in te stellen. Converteert naar kleine letters en controleert op M/V voordat het geslacht geset wordt.
+     * Setter om geslacht in te stellen.
      *
-     * @param geslacht
+     * @param geslacht geslacht van de persoon
      */
     public void setGeslacht(char geslacht) {
-        Character.toLowerCase(geslacht);
-        if((geslacht == 'm') || (geslacht == 'v')) {
+        if(checkGeslacht(geslacht)){
             this.geslacht = geslacht;
         }
         else{
@@ -59,9 +76,20 @@ public class Persoon {
     }
 
     /**
-     * Methode om het geslacht te retourneren als String.
+     * Methode die geslacht controleert.
      *
-     * @return
+     * @param geslacht dat je wilt checken.
+     */
+
+    public boolean checkGeslacht(char geslacht){
+        Character.toLowerCase(geslacht);
+        return (geslacht == 'm') || (geslacht == 'v');
+    }
+
+
+    /**
+     * Methode om het geslacht weer te geven in volle benaming.
+     *
      */
     public char getGeslacht(){
         if(geslacht == 'm') {
@@ -85,5 +113,16 @@ public class Persoon {
         geboortedatumString = geboortedatum.getDatumAsString();
         return geboortedatumString;
     }
+
+    @Override
+    public String toString() {
+        return "Persoon{" +
+                "BSN=" + BSN +
+                ", voornaam='" + voornaam + '\'' +
+                ", achternaam='" + achternaam + '\'' +
+                ", geboortedatum=" + geboortedatum +
+                ", geslacht=" + geslacht +
+                '}';
     }
+}
 
