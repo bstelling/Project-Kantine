@@ -4,14 +4,14 @@ import java.util.Stack;
 
 public class Dienblad {
     private Persoon klant;
-    private ArrayList<Artikel> artikelen;
+    private Stack<Artikel> artikelen;
 
     /**
      * Constructor
      */
     public Dienblad() {
         // method body omitted
-        artikelen = new ArrayList<Artikel>();
+        artikelen = new Stack<Artikel>();
     }
 
     /**

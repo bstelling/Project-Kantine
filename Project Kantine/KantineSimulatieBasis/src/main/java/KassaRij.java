@@ -4,14 +4,14 @@ import java.util.LinkedList;
 
 public class KassaRij {
 
-    private ArrayList<Dienblad> kassaRij;
+    private LinkedList<Dienblad> kassaRij;
 
     /**
      * Constructor
      */
     public KassaRij() {
         // method body omitted
-        kassaRij = new ArrayList<Dienblad>();
+        kassaRij = new LinkedList<Dienblad>();
     }
 
     /**
