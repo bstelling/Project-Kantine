@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Kassa {
@@ -7,7 +8,7 @@ public class Kassa {
      * kassaBalans houdt het aantal geld in de kassa bij.
      * aantalKassaArtikelen houdt het aantal artikelen bij dat de kassa gepasseerd is.
      */
-    private ArrayList<KassaRij> kassarij;
+    private KassaRij kassarij;
     private double kassaBalans;
     private int aantalKassaArtikelen;
 
@@ -35,7 +36,7 @@ public class Kassa {
         //klant.getTotaalPrijs();
 
         kassaBalans += klant.getTotaalPrijs();
-        aantalKassaArtikelen += klant.getTotaalPrijs();
+        aantalKassaArtikelen += klant.getAantalArtikelen();
 
     }
 

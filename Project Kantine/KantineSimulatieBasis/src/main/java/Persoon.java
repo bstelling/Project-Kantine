@@ -21,8 +21,8 @@ public class Persoon {
      * Parameterloze constructor met foute waarden.
      */
     public Persoon() {
-        this.geboortedatum = new Datum(34, 1, 1997);
-        this.geslacht = 'K';
+        this.geboortedatum = new Datum(0, 0, 0);
+        this.geslacht = 'O';
     }
 
     /**

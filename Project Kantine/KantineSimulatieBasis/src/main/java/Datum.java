@@ -79,7 +79,7 @@ public class Datum {
 	 * @return true of false afhankelijk van schrikkeljaar of geen schrikkeljaar.
 	 */
 	public boolean isSchrikkelJaar(int jaar){
-		if((jaar % 400 == 0) && (jaar % 4 == 0)){
+		if(((jaar % 400 == 0) && (jaar % 100 != 0)) && (jaar % 4 == 0)){
 			return true;
 		}
 			return false;

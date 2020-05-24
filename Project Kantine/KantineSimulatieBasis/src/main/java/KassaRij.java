@@ -31,9 +31,8 @@ public class KassaRij {
      */
     public Dienblad eerstePersoonInRij() {
         // method body omitted
-        if(kassaRij != null) {
-            return kassaRij.get(0);
-            kassaRij.remove(0);
+        if(erIsEenRij()) {
+            return kassaRij.remove(0);
         }
         else{
             return null;
@@ -47,7 +46,7 @@ public class KassaRij {
      */
     public boolean erIsEenRij() {
         // method body omitted
-        if(kassaRij >= 1){
+        if(kassaRij.size() >= 1){
             return true;
         }
         else{

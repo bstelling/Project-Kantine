@@ -63,13 +63,7 @@ public class Dienblad {
      */
     public int getAantalArtikelen() {
         // method body omitted
-
-        int aantalArtikelen = 0;
-
-        for(Artikel artikel : artikelen){
-            aantalArtikelen++;
-        }
-        return aantalArtikelen;
+        return artikelen.size();
     }
 
     /**

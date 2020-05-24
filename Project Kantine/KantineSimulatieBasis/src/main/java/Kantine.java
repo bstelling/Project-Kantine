@@ -36,6 +36,7 @@ public class Kantine {
      */
     public double hoeveelheidGeldInKassa() {
         // method body omitted
+        return kassa.hoeveelheidGeldInKassa();
     }
 
     /**

@@ -9,7 +9,6 @@ public class Artikel {
 
     }
 
-
     public void setNaam(String newNaam){
         this.naam = newNaam;
 
