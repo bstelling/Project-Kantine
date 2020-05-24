@@ -32,7 +32,7 @@ public class Administratie {
         for(int i = 0; i < 7; i++) {
 
             int j = 0;
-            while ( ... ) {
+            while ( null ) {
                 temp[i] += omzet[i + 7 * j];
 
                 // omitted

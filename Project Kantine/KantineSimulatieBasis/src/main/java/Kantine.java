@@ -1,14 +1,21 @@
+import java.util.ArrayList;
 public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
+    private KantineAanbod kantineAanbod;
+    private Persoon klant;
 
+    public static double hoeveelheidGeld =0;
+    public static int hoeveelheidArtikelen = 0;
     /**
      * Constructor
      */
     public Kantine() {
         kassarij = new KassaRij();
         kassa = new Kassa(kassarij);
+
+
     }
 
     /**
@@ -16,16 +23,25 @@ public class Kantine {
      * Artikelen aan en plaats deze op het dienblad. Tenslotte sluit de Persoon zich aan bij de rij
      * voor de kassa.
      */
-    public void loopPakSluitAan() {
-        // method body omitted
+
+    public void loopPakSluitAan(Dienblad klant, String[] artikelen) {
+        if (artikelen.length>0) {
+            //aantal artikelen bij langs lopen
+            for (int i=0; i<artikelen.length; i++)
+            {
+                Artikel artikel = kantineAanbod.getArtikel(artikelen[i]);
+                klant.voegToe(artikel);
+            }
+        }
+        kassarij.sluitAchteraan(klant);
     }
 
     /**
      * Deze methode handelt de rij voor de kassa af.
      */
     public void verwerkRijVoorKassa() {
-        while () {
-            // omitted
+        while (kassarij.erIsEenRij() == true) {
+            kassa.rekenAf(kassarij.eerstePersoonInRij());
         }
     }
 
@@ -35,8 +51,7 @@ public class Kantine {
      * @return hoeveelheid geld in kassa
      */
     public double hoeveelheidGeldInKassa() {
-        // method body omitted
-        return kassa.hoeveelheidGeldInKassa();
+    return kassa.hoeveelheidGeldInKassa();
     }
 
     /**
@@ -45,7 +60,7 @@ public class Kantine {
      * @return het aantal gepasseerde artikelen
      */
     public int aantalArtikelen() {
-        // method body omitted
+    return kassa.aantalArtikelen();
     }
 
     /**
@@ -53,6 +68,7 @@ public class Kantine {
      * de kassa.
      */
     public void resetKassa() {
-        // method body omitted
+        hoeveelheidArtikelen = 0;
+        hoeveelheidGeld = 0;
     }
 }

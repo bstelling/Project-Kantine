@@ -82,7 +82,7 @@ public class Datum {
 		if(((jaar % 400 == 0) && (jaar % 100 != 0)) && (jaar % 4 == 0)){
 			return true;
 		}
-			return false;
+		return false;
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class Datum {
 	public String getDatumAsString() {
 		// TODO
 
-			return dag + "-" + maand + "-" + jaar;
-		}
+		return dag + "-" + maand + "-" + jaar;
+	}
 
 }
