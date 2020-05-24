@@ -27,11 +27,10 @@ public class Dienblad {
     /**
      * Methode om een klant te setten; setter
      *
-     * @param klant die je wilt setten.
+     * @param newKlant die je wilt setten.
      */
 
     public void setKlant(Persoon newKlant){
-
         this.klant = newKlant;
     }
 
@@ -42,7 +41,6 @@ public class Dienblad {
      */
 
     public Persoon getKlant(){
-
         return klant;
     }
 
@@ -53,32 +51,11 @@ public class Dienblad {
      */
     public void voegToe(Artikel artikel) {
         // method body omitted
-        artikelen.add(artikel);
+        artikelen.push(artikel);
     }
 
-    /**
-     * Methode om aantal artikelen op dienblad te tellen
-     *
-     * @return Het aantal artikelen
-     */
-    public int getAantalArtikelen() {
-        // method body omitted
-        return artikelen.size();
-    }
-
-    /**
-     * Methode om de totaalprijs van de artikelen op dienblad uit te rekenen
-     *
-     * @return De totaalprijs
-     */
-    public double getTotaalPrijs() {
-        // method body omitted
-        double totaalPrijs = 0.0;
-
-        for(Artikel artikel : artikelen){
-            totaalPrijs = totaalPrijs + artikel.getPrijs();
-        }
-        return totaalPrijs;
+    public Iterator<Artikel> getIterator(){
+        return artikelen.iterator();
     }
 }
 

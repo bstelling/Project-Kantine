@@ -6,7 +6,8 @@ public class Artikel {
     //  declaratie die declareert iets en initialisatie maak je iets aan om later te laten declareren.
 
     public Artikel(String naam, int prijs) {
-
+        this.naam = naam;
+        this.prijs = prijs;
     }
 
 

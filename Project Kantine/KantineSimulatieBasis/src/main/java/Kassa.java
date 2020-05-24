@@ -32,12 +32,18 @@ public class Kassa {
     public void rekenAf(Dienblad klant) {
         // method body omitted
 
+        Iterator<Artikel> artikelen = klant.getIterator();
+        while(artikelen.hasNext()){
+            aantalKassaArtikelen++;
+            Artikel artikel = artikelen.next();
+            kassaBalans += artikel.getPrijs();
+        }
+
         //klant.getAantalArtikelen();
         //klant.getTotaalPrijs();
 
-        kassaBalans += klant.getTotaalPrijs();
-        aantalKassaArtikelen += klant.getAantalArtikelen();
-
+//        kassaBalans += klant.getTotaalPrijs();
+//        aantalKassaArtikelen += klant.getAantalArtikelen();
     }
 
     /**

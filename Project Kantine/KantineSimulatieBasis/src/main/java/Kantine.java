@@ -3,8 +3,8 @@ public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
-    private KantineAanbod kantineAanbod;
-    private Persoon klant;
+    private KantineAanbod kantineaanbod;
+//    private Persoon klant;
 
     public static double hoeveelheidGeld =0;
     public static int hoeveelheidArtikelen = 0;
@@ -14,9 +14,26 @@ public class Kantine {
     public Kantine() {
         kassarij = new KassaRij();
         kassa = new Kassa(kassarij);
-
-
     }
+
+    /**
+     * Setter om de kantineaanbod variabele te setten.
+     *
+     * @param newKantineAanbod nieuwe kantineaanbod variabele
+     */
+    public void setKantineAanbod(KantineAanbod newKantineAanbod){
+        this.kantineaanbod = newKantineAanbod;
+    }
+
+    /**
+     * Getter om de kantineaanbod variabele te returnen.
+     *
+     * @return kantineaanbod
+     */
+    public KantineAanbod getKantineAanbod(){
+        return kantineaanbod;
+    }
+
 
     /**
      * In deze methode wordt een Persoon en Dienblad gemaakt en aan elkaar gekoppeld. Maak twee
@@ -24,43 +41,45 @@ public class Kantine {
      * voor de kassa.
      */
 
-    public void loopPakSluitAan(Dienblad klant, String[] artikelen) {
-        if (artikelen.length>0) {
-            //aantal artikelen bij langs lopen
-            for (int i=0; i<artikelen.length; i++)
-            {
-                Artikel artikel = kantineAanbod.getArtikel(artikelen[i]);
-                klant.voegToe(artikel);
-            }
+    public void loopPakSluitAan(Dienblad dienblad, String[] artikelnamen) {
+//        Persoon klant = new Persoon(412, "Peter", "de Groot", new Datum(28,3,2001), 'm');
+//        Dienblad dienblad = new Dienblad(klant);
+//
+//        Artikel artikel1 = new Artikel("Brood", 2);
+//        Artikel artikel2 = new Artikel("Koffie", 4);
+//
+//        dienblad.voegToe(artikel1);
+//        dienblad.voegToe(artikel2);
+//
+//        kassarij.sluitAchteraan(dienblad);
+
+        //for-loop om door alle artikelnamen te gaan
+        for(int i = 0; i < artikelnamen.length; i++){
+            //artikel object die bij de artikel string hoort ophalen
+            Artikel artikel = kantineaanbod.getArtikel(artikelnamen[i]);
+            //artikel toevoegen aan het dienblad
+            dienblad.voegToe(artikel);
+            //dienblad achteraan aansluiten
+            kassarij.sluitAchteraan(dienblad);
         }
-        kassarij.sluitAchteraan(klant);
     }
 
     /**
      * Deze methode handelt de rij voor de kassa af.
      */
     public void verwerkRijVoorKassa() {
-        while (kassarij.erIsEenRij() == true) {
+        while (kassarij.erIsEenRij()) {
             kassa.rekenAf(kassarij.eerstePersoonInRij());
         }
     }
 
     /**
-     * Deze methode telt het geld uit de kassa
+     * Getter om de kassa variabele te returnen.
      *
-     * @return hoeveelheid geld in kassa
+     * @return de kassa variabele
      */
-    public double hoeveelheidGeldInKassa() {
-    return kassa.hoeveelheidGeldInKassa();
-    }
-
-    /**
-     * Deze methode geeft het aantal gepasseerde artikelen.
-     *
-     * @return het aantal gepasseerde artikelen
-     */
-    public int aantalArtikelen() {
-    return kassa.aantalArtikelen();
+    public Kassa getKassa(){
+        return kassa;
     }
 
     /**
