@@ -86,9 +86,42 @@ public class Persoon {
         return (geslacht == 'm') || (geslacht == 'v');
     }
 
+    // private int BSN;
+    //    private String voornaam;
+    //    private String achternaam;
+    //    private Datum geboortedatum;
+    //    private char geslacht;
+
+    /**
+     * Methode om BSN-nummer terug te geven.
+     *
+     * @return het BSN nummer
+     */
+    public int getBSN(){
+        return BSN;
+    }
+
+    /**
+     * Methode om de voornaam terug te geven.
+     *
+     * @return de voornaam
+     */
+    public String getVoornaam(){
+        return voornaam;
+    }
+
+    /**
+     * Methode om de achternaam terug te geven.
+     *
+      * @return de achternaam
+     */
+    public String getAchternaam(){
+        return achternaam;
+    }
 
     /**
      * Methode om het geslacht weer te geven in volle benaming.
+     *
      *
      */
     public void getGeslacht(){
