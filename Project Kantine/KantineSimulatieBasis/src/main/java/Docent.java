@@ -11,6 +11,8 @@ public class Docent extends Persoon {
         setAfdeling(afdeling);
     }
 
+    public Docent(){}
+
     public void setAfkorting(String newAfkorting){
         this.afkorting = newAfkorting.substring(0, 3);
     }

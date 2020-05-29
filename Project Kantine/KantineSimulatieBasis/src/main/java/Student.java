@@ -7,6 +7,9 @@ public class Student extends Persoon {
         setStudentNummer(studentNummer);
     }
 
+    public Student() {
+    }
+
     public void setStudentNummer(int newStudentNummer){
         this.studentNummer = newStudentNummer;
     }

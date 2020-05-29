@@ -34,6 +34,12 @@ public class KantineSimulatie_2 {
     private static final int MIN_ARTIKELEN_PER_PERSOON = 1;
     private static final int MAX_ARTIKELEN_PER_PERSOON = 4;
 
+    //variables voor de administratie
+    private int[] aantalpersonenTotaal;
+    private double[] omzet;
+    private double[] dagomzet;
+
+
     /**
      * Constructor
      *
@@ -103,18 +109,40 @@ public class KantineSimulatie_2 {
      * @return
      */
     public void simuleer(int dagen) {
+
+        aantalpersonenTotaal = new int[dagen];
+        omzet = new double[7];
+        dagomzet = new double[7];
+
+
         // for lus voor dagen
         for(int i = 0; i < dagen; i++) {
 
             // bedenk hoeveel personen vandaag binnen lopen
             int aantalpersonen = getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
+            // variabelen maken voor het aantal studenten, docenten, medewerkers (klanten)
+            int aantalStudenten = 89;
+            int aantalDocenten = 10;
+            int aantalMedewerkers = 1;
 
             // laat de personen maar komen...
             for (int j = 0; j < aantalpersonen; j++) {
 
-                // maak persoon en dienblad aan, koppel ze
+                //Persoon object aanmaken
+                Persoon p1 = new Persoon();
+
+                // maak personen en dienblad aan, koppel ze
                 // en bedenk hoeveel artikelen worden gepakt
-                Persoon persoon = new Persoon();
+                if(j < aantalMedewerkers) {
+                    p1 = new KantineMedewerker(1, "Piet", "Friet", new Datum(1, 03, 2001), 'm', 2, false);
+                }
+                else if(j < aantalDocenten) {
+                    p1 = new Docent(2, "Klaas", "de Klein", new Datum(03, 05, 1992), 'm', "KLKL", "INF");
+                }
+                else if(j < aantalStudenten){
+                    p1 = new Student(3, "Joost", "Proost", new Datum(02, 04, 2002), 'm', 387107);
+                }
+                //System.out.println(p1.toString());
                 Dienblad dienblad = new Dienblad();
 
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
@@ -137,15 +165,36 @@ public class KantineSimulatie_2 {
 
             // druk de dagtotalen af en hoeveel personen binnen
             // zijn gekomen
-            System.out.println("Aantal artikelen verkocht: " + kantine.getKassa().aantalArtikelen() + "\nTotale balans in de kassa: " + kantine.getKassa().hoeveelheidGeldInKassa() + "\nAantal personen geserveerd: " + aantalpersonen + "\n");
+//            System.out.println("Aantal artikelen verkocht: " + kantine.getKassa().aantalArtikelen() + "\nTotale balans in de kassa: " + kantine.getKassa().hoeveelheidGeldInKassa() + "\nAantal personen geserveerd: " + aantalpersonen +
+//                    "\n");
+
+            //dagtotalen voor de kassa opgeslagen in variabelen:
+            aantalpersonenTotaal[i] = aantalpersonen;
+            omzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
+            dagomzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
 
             // reset de kassa voor de volgende dag
             kantine.resetKassa();
 
         }
+
+        double gemPersoon = Administratie.berekenGemiddeldAantal(aantalpersonenTotaal);
+        System.out.println("Gemiddelde aantal personen per dag: " + gemPersoon + "\n");
+
+        double gemOmzet = Administratie.berekenGemiddeldeOmzet(omzet);
+        System.out.println("Gemiddelde omzet per dag: " + gemOmzet + "\n");
+
+        double[] gemDagOmzet = Administratie.berekenDagOmzet(omzet);
+        String[] dagVanDeWeek = new String[]{"maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"};
+        for(int i =0; i < dagVanDeWeek.length; i++) {
+            System.out.println("Op " + dagVanDeWeek[i] + " was de dagomzet: " + gemDagOmzet[i]);
+        }
+
+
+
     }
     public static void main(String[] args){
         KantineSimulatie_2 kantineSimulatie = new KantineSimulatie_2();
-        kantineSimulatie.simuleer(1);
+        kantineSimulatie.simuleer(7);
     }
 }
