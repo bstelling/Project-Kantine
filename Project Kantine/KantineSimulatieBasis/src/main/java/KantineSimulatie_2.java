@@ -121,33 +121,38 @@ public class KantineSimulatie_2 {
             // bedenk hoeveel personen vandaag binnen lopen
             int aantalpersonen = getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
             // variabelen maken voor het aantal studenten, docenten, medewerkers (klanten)
-//            int aantalStudenten = 89;
-//            int aantalDocenten = 10;
-//            int aantalMedewerkers = 1;
+            int aantalStudenten = 100;
+            int aantalDocenten = 10;
+            int aantalMedewerkers = 1;
 
             //random variabelen
-            int aantalStudentenRan = random.nextInt(89 - 100 + 1) + 89;
-            int aantalMedewerkersRan = random.nextInt(1 - 100 + 1) + 1;
-            int aantalDocentenRan = random.nextInt(10 - 100 + 1) + 10;
+//            int aantalStudentenRan = random.nextInt(100 - 89 + 1) + 89;
+//            int aantalMedewerkersRan = random.nextInt(100 - 1 + 1) + 1;
+//            int aantalDocentenRan = random.nextInt(100 - 10 + 1) + 10;
+
+//            int randomVar = random.nextInt(100);
 
             // laat de personen maar komen...
             for (int j = 0; j < aantalpersonen; j++) {
+
+                //random variabele voor de kansen
+                int randomVar = random.nextInt(100);
 
                 //Persoon object aanmaken
                 Persoon p1 = new Persoon();
 
                 // maak personen en dienblad aan, koppel ze
                 // en bedenk hoeveel artikelen worden gepakt
-                if(j < aantalMedewerkersRan) {
+                if(randomVar == 1) {
                     p1 = new KantineMedewerker(1, "Piet", "Friet", new Datum(1, 03, 2001), 'm', 2, false);
                 }
-                else if(j < aantalDocentenRan) {
+                else if(randomVar > 1 && randomVar <= 11) {
                     p1 = new Docent(2, "Klaas", "de Klein", new Datum(03, 05, 1992), 'm', "KLKL", "INF");
                 }
-                else if(j < aantalStudentenRan){
+                else
                     p1 = new Student(3, "Joost", "Proost", new Datum(02, 04, 2002), 'm', 387107);
-                }
-                System.out.println(p1.toString() + "\n");
+
+                //System.out.println(p1.toString() + "\n");
                 Dienblad dienblad = new Dienblad();
 
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
