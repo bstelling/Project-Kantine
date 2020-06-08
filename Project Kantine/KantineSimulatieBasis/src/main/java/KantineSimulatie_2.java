@@ -114,7 +114,6 @@ public class KantineSimulatie_2 {
         aantalpersonenTotaal = new int[dagen];
         omzet = new double[dagen];
         aantalArtikelenTotaal = new int[dagen];
-//        dagomzet = new double[dagen];
 
 
         // for lus voor dagen
@@ -187,10 +186,10 @@ public class KantineSimulatie_2 {
             aantalpersonenTotaal[i] = aantalpersonen;
             omzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
             aantalArtikelenTotaal[i] = kantine.getKassa().aantalArtikelen();
-            //dagomzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
+
 
             // reset de kassa voor de volgende dag
-            kantine.resetKassa();
+            kantine.getKassa().resetKassa();
 
         }
 
@@ -208,8 +207,6 @@ public class KantineSimulatie_2 {
         for(int i =0; i < dagVanDeWeek.length; i++) {
             System.out.println("Op " + dagVanDeWeek[i] + " was de dagomzet: " + gemDagOmzet[i]);
         }
-
-
 
 
     }
