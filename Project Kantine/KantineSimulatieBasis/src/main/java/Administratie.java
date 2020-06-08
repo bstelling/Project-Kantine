@@ -16,8 +16,6 @@ public class Administratie {
 
     }
 
-
-
     public static double  berekenGemiddeldAantal(int[] aantal) {
       //   method body omitted
     //    als de array leeg is, return 0.0

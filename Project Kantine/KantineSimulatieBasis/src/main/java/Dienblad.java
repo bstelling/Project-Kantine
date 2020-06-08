@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -20,8 +19,7 @@ public class Dienblad {
      * @param klant die je toe wilt voegen.
      */
     public Dienblad(Persoon klant){
-
-        this.klant = klant;
+        setKlant(klant);
     }
 
     /**

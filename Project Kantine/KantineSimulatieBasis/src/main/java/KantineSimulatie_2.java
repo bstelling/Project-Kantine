@@ -38,6 +38,7 @@ public class KantineSimulatie_2 {
     private int[] aantalpersonenTotaal;
     private double[] omzet;
     private double[] dagomzet;
+    private int[] aantalArtikelenTotaal;
 
 
     /**
@@ -111,8 +112,9 @@ public class KantineSimulatie_2 {
     public void simuleer(int dagen) {
 
         aantalpersonenTotaal = new int[dagen];
-        omzet = new double[7];
-        dagomzet = new double[7];
+        omzet = new double[dagen];
+        aantalArtikelenTotaal = new int[dagen];
+//        dagomzet = new double[dagen];
 
 
         // for lus voor dagen
@@ -154,6 +156,8 @@ public class KantineSimulatie_2 {
 
                 //System.out.println(p1.toString() + "\n");
                 Dienblad dienblad = new Dienblad();
+                dienblad.setKlant(p1);
+                //System.out.println(dienblad.getKlant());
 
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
 
@@ -181,7 +185,8 @@ public class KantineSimulatie_2 {
             //dagtotalen voor de kassa opgeslagen in variabelen:
             aantalpersonenTotaal[i] = aantalpersonen;
             omzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
-            dagomzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
+            aantalArtikelenTotaal[i] = kantine.getKassa().aantalArtikelen();
+            //dagomzet[i] = kantine.getKassa().hoeveelheidGeldInKassa();
 
             // reset de kassa voor de volgende dag
             kantine.resetKassa();
@@ -193,6 +198,9 @@ public class KantineSimulatie_2 {
 
         double gemOmzet = Administratie.berekenGemiddeldeOmzet(omzet);
         System.out.println("Gemiddelde omzet per dag: " + gemOmzet + "\n");
+
+        double gemArtikelen = Administratie.berekenGemiddeldAantal(aantalArtikelenTotaal);
+        System.out.println("Gemiddelde artikelen verkocht per dag: " + gemArtikelen + "\n");
 
         double[] gemDagOmzet = Administratie.berekenDagOmzet(omzet);
         String[] dagVanDeWeek = new String[]{"maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"};
