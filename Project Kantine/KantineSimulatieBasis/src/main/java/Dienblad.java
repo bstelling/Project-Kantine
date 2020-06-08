@@ -18,30 +18,33 @@ public class Dienblad {
      *
      * @param klant die je toe wilt voegen.
      */
+    /*
     public Dienblad(Persoon klant){
         setKlant(klant);
     }
+*/
+
 
     /**
      * Methode om een klant te setten; setter
      *
      * @param newKlant die je wilt setten.
      */
-
+/*
     public void setKlant(Persoon newKlant){
         this.klant = newKlant;
     }
-
+*/
     /**
      * Methode om een klant terug te geven; getter
      *
      * @return de klant
      */
-
+/*
     public Persoon getKlant(){
         return klant;
     }
-
+*/
     /**
      * Methode om artikel aan dienblad toe te voegen
      *
@@ -56,4 +59,3 @@ public class Dienblad {
         return artikelen.iterator();
     }
 }
-

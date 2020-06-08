@@ -156,7 +156,8 @@ public class KantineSimulatie_2 {
 
                 //System.out.println(p1.toString() + "\n");
                 Dienblad dienblad = new Dienblad();
-                dienblad.setKlant(p1);
+              //  dienblad.setKlant(p1);
+                p1.pakDienblad(dienblad);
                 //System.out.println(dienblad.getKlant());
 
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
@@ -171,7 +172,7 @@ public class KantineSimulatie_2 {
 
                 // loop de kantine binnen, pak de gewenste
                 // artikelen, sluit aan
-                kantine.loopPakSluitAan(dienblad, artikelen);
+                kantine.loopPakSluitAan(p1, artikelen);
             }
 
             // verwerk rij voor de kassa
@@ -207,6 +208,7 @@ public class KantineSimulatie_2 {
         for(int i =0; i < dagVanDeWeek.length; i++) {
             System.out.println("Op " + dagVanDeWeek[i] + " was de dagomzet: " + gemDagOmzet[i]);
         }
+
 
 
 

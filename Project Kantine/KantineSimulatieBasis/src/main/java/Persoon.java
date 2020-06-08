@@ -5,7 +5,9 @@ public class Persoon {
     private String achternaam;
     private Datum geboortedatum;
     private char geslacht;
+    private Betaalwijze betaalwijze;
 
+    private Dienblad dienblad;
     /**
      * Constructor
      */
@@ -113,7 +115,7 @@ public class Persoon {
     /**
      * Methode om de achternaam terug te geven.
      *
-      * @return de achternaam
+     * @return de achternaam
      */
     public String getAchternaam(){
         return achternaam;
@@ -157,5 +159,26 @@ public class Persoon {
                 ", geslacht=" + geslacht +
                 '}';
     }
+
+    public Betaalwijze getBetaalwijze(){
+        return betaalwijze;
+    }
+
+    public void setBetaalwijze(Betaalwijze betaalwijze) {
+        this.betaalwijze = betaalwijze;
+    }
+    public void pakDienblad(Dienblad dienblad){
+        if (dienblad != null)
+        {
+            this.dienblad = dienblad;
+        }
+    }
+
+    public Dienblad getDienblad()
+    {
+        return dienblad;
+    }
 }
+
+
 

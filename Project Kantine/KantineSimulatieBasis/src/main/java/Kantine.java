@@ -41,7 +41,7 @@ public class Kantine {
      * voor de kassa.
      */
 
-    public void loopPakSluitAan(Dienblad dienblad, String[] artikelnamen) {
+    public void loopPakSluitAan(Persoon persoon, String[] artikelnamen) {
 //        Persoon klant = new Persoon(412, "Peter", "de Groot", new Datum(28,3,2001), 'm');
 //        Dienblad dienblad = new Dienblad(klant);
 //
@@ -58,9 +58,9 @@ public class Kantine {
             //artikel object die bij de artikel string hoort ophalen
             Artikel artikel = kantineaanbod.getArtikel(artikelnamen[i]);
             //artikel toevoegen aan het dienblad
-            dienblad.voegToe(artikel);
+            persoon.getDienblad().voegToe(artikel);
             //dienblad achteraan aansluiten
-            kassarij.sluitAchteraan(dienblad);
+            kassarij.sluitAchteraan(persoon);
         }
     }
 

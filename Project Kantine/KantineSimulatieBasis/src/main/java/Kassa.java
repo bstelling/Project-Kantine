@@ -22,6 +22,10 @@ public class Kassa {
         kassaBalans = 0;
     }
 
+        public Dienblad getDienblad(Persoon persoon)
+        {
+            return persoon.getDienblad();
+        }
     /**
      * Vraag het aantal artikelen en de totaalprijs op. Tel deze gegevens op bij de controletotalen
      * die voor de kassa worden bijgehouden. De implementatie wordt later vervangen door een echte
@@ -29,22 +33,54 @@ public class Kassa {
      *
      * @param klant die moet afrekenen
      */
-    public void rekenAf(Dienblad klant) {
-        // method body omitted
-
-        Iterator<Artikel> artikelen = klant.getIterator();
-        while(artikelen.hasNext()){
+    public void rekenAf( Persoon klant )
+    {
+        Dienblad dienblad = klant.getDienblad();
+        Iterator<Artikel> artikelen = dienblad.getIterator();
+        double totaal = 0;
+        while(artikelen.hasNext())
+        {
             aantalKassaArtikelen++;
             Artikel artikel = artikelen.next();
-            kassaBalans += artikel.getPrijs();
+            totaal += artikel.getPrijs();
+        }
+        //kijkt of er korting moet worden gegeven en hoeveel dat dan is.
+        if(klant instanceof KortingskaartHouder){
+            if(klant instanceof Docent || klant instanceof KantineMedewerker){
+                double korting = 0;
+                korting = totaal * ((KortingskaartHouder) klant).geefKortingsPercentage();
+                if(korting > ((KortingskaartHouder) klant).geefMaximum()){
+                    korting = ((KortingskaartHouder) klant).geefMaximum();
+                }
+                totaal = totaal - korting;
+            }
+        }
+        Pinpas pinpas = new Pinpas();
+        Betaalwijze betaalwijze = new Contant();
+
+        betaalwijze.setSaldo(20);
+
+        klant.setBetaalwijze(betaalwijze);
+
+        try{
+            klant.getBetaalwijze().betaal(totaal);
+            kassaBalans += totaal;
+        }
+        catch(TeWeinigGeldException e){
+            System.out.println(klant.getVoornaam()+ " " + klant.getAchternaam()+" kan de artikelen niet betalen.");
         }
 
-        //klant.getAantalArtikelen();
+
+
+    }
+
+
+    //klant.getAantalArtikelen();
         //klant.getTotaalPrijs();
 
 //        kassaBalans += klant.getTotaalPrijs();
 //        aantalKassaArtikelen += klant.getAantalArtikelen();
-    }
+
 
     /**
      * Geeft het aantal artikelen dat de kassa heeft gepasseerd, vanaf het moment dat de methode

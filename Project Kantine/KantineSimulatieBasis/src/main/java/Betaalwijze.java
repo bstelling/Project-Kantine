@@ -1,5 +1,5 @@
 public abstract class Betaalwijze {
-
+    // alleen de subklasse kan hierbij en geen enkele andere klasse kan de saldo veranderen.
     protected double saldo;
 
     /**
@@ -17,5 +17,5 @@ public abstract class Betaalwijze {
      * @param tebetalen
      * @return Boolean om te kijken of er voldoende saldo is
      */
-    public abstract boolean betaal(double tebetalen);
+    public abstract void betaal(double tebetalen) throws TeWeinigGeldException;
 }
