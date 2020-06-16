@@ -1,4 +1,5 @@
 
+
 import java.util.*;
 import javax.persistence.Persistence;
 import javax.persistence.EntityManager;
@@ -178,9 +179,25 @@ public class KantineSimulatie_2 {
 
                 //System.out.println(p1.toString() + "\n");
                 Dienblad dienblad = new Dienblad();
-              //  dienblad.setKlant(p1);
+                //  dienblad.setKlant(p1);
                 p1.pakDienblad(dienblad);
                 //System.out.println(dienblad.getKlant());
+                Betaalwijze betaalwijze;
+                String typebetalwijze;
+                int random = getRandomValue(1, 2);
+                if (random == 1) {
+                    betaalwijze = new Contant();
+                    typebetalwijze = "contant";
+                }
+                else
+                {
+                    betaalwijze = new Pinpas();
+                    ((Pinpas)betaalwijze).setKredietLimiet(getRandomValue(-10, 0));
+                    typebetalwijze = "pinpas";
+                }
+                p1.setBetaalwijze(betaalwijze);
+                betaalwijze.setSaldo(getRandomValue(3,100));
+
 
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
 

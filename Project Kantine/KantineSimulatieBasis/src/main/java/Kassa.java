@@ -45,20 +45,16 @@ public class Kassa {
             totaal += artikel.getPrijs();
         }
         //kijkt of er korting moet worden gegeven en hoeveel dat dan is.
-        if(klant instanceof KortingskaartHouder) {
-            double korting = totaal * (((KortingskaartHouder) klant).geefKortingsPercentage());
-            if (((KortingskaartHouder) klant).heeftMaximum()) {
-                if (korting > ((KortingskaartHouder) klant).geefMaximum()) {
-                    korting = ((KortingskaartHouder) klant).geefMaximum();
+        // and nog maximum nu kirjgt kantinemedewerker geen geld
+        if(klant instanceof KortingskaartHouder){
+            double korting = totaal * (((KortingskaartHouder)klant).geefKortingsPercentage());
+            if(((KortingskaartHouder)klant).heeftMaximum()){
+                if(korting > ((KortingskaartHouder)klant).geefMaximum()){
+                    korting = ((KortingskaartHouder)klant).geefMaximum();
                 }
             }
         }
-        Pinpas pinpas = new Pinpas();
-        Betaalwijze betaalwijze = new Contant();
 
-        betaalwijze.setSaldo(20);
-
-        klant.setBetaalwijze(betaalwijze);
 
         try{
             klant.getBetaalwijze().betaal(totaal);
