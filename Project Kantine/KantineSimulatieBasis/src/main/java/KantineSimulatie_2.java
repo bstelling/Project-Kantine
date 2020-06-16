@@ -1,5 +1,8 @@
 
 import java.util.*;
+import javax.persistence.Persistence;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 public class KantineSimulatie_2 {
 
@@ -39,6 +42,9 @@ public class KantineSimulatie_2 {
     private double[] omzet;
     private double[] dagomzet;
     private int[] aantalArtikelenTotaal;
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
+            Persistence.createEntityManagerFactory("KantineSimulatie");
+    private EntityManager manager;
 
 
     /**
@@ -53,6 +59,17 @@ public class KantineSimulatie_2 {
         kantineaanbod = new KantineAanbod(artikelnamen, artikelprijzen, hoeveelheden);
 
         kantine.setKantineAanbod(kantineaanbod);
+
+
+    }
+
+    public void runVoorbeeld() {
+        manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+
+        // transactions omitted
+
+        manager.close();
+        ENTITY_MANAGER_FACTORY.close();
     }
 
     /**
@@ -71,6 +88,12 @@ public class KantineSimulatie_2 {
         }
 
         return temp;
+    }
+
+    private void dagelijkseKortingsArtikel(){
+        int randomArtikel = random.nextInt(AANTAL_ARTIKELEN);
+        String kortingsArtikelNaam = artikelnamen[randomArtikel];
+        artikelprijzen[randomArtikel] = artikelprijzen[randomArtikel] * 0.8;
     }
 
     /**
@@ -214,4 +237,8 @@ public class KantineSimulatie_2 {
         KantineSimulatie_2 kantineSimulatie = new KantineSimulatie_2();
         kantineSimulatie.simuleer(7);
     }
+
+
+
+
 }

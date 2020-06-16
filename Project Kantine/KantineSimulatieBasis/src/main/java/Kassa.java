@@ -45,14 +45,12 @@ public class Kassa {
             totaal += artikel.getPrijs();
         }
         //kijkt of er korting moet worden gegeven en hoeveel dat dan is.
-        if(klant instanceof KortingskaartHouder){
-            if(klant instanceof Docent || klant instanceof KantineMedewerker){
-                double korting = 0;
-                korting = totaal * ((KortingskaartHouder) klant).geefKortingsPercentage();
-                if(korting > ((KortingskaartHouder) klant).geefMaximum()){
+        if(klant instanceof KortingskaartHouder) {
+            double korting = totaal * (((KortingskaartHouder) klant).geefKortingsPercentage());
+            if (((KortingskaartHouder) klant).heeftMaximum()) {
+                if (korting > ((KortingskaartHouder) klant).geefMaximum()) {
                     korting = ((KortingskaartHouder) klant).geefMaximum();
                 }
-                totaal = totaal - korting;
             }
         }
         Pinpas pinpas = new Pinpas();
