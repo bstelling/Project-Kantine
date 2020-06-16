@@ -38,11 +38,19 @@ public class Kassa {
         Dienblad dienblad = klant.getDienblad();
         Iterator<Artikel> artikelen = dienblad.getIterator();
         double totaal = 0;
+
+
+
         while(artikelen.hasNext())
         {
             aantalKassaArtikelen++;
             Artikel artikel = artikelen.next();
-            totaal += artikel.getPrijs();
+            if(artikel.getKorting() == 0.2){
+                totaal += artikel.getPrijs() * 0.8;
+            }
+            else {
+                totaal += artikel.getPrijs();
+            }
         }
         //kijkt of er korting moet worden gegeven en hoeveel dat dan is.
         // and nog maximum nu kirjgt kantinemedewerker geen geld
@@ -54,7 +62,6 @@ public class Kassa {
                 }
             }
         }
-
 
         try{
             klant.getBetaalwijze().betaal(totaal);

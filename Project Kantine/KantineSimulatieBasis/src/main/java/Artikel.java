@@ -2,11 +2,11 @@ public class Artikel {
 
     private String naam;
     private int prijs;
-    private int korting = 0;
+    private double korting = 0;
 
     //  declaratie die declareert iets en initialisatie maak je iets aan om later te laten declareren.
 
-    public Artikel(String naam, int prijs, int korting) {
+    public Artikel(String naam, int prijs, double korting) {
         this.naam = naam;
         this.prijs = prijs;
         this.korting = korting;
@@ -21,7 +21,7 @@ public class Artikel {
         this.prijs = newPrijs;
     }
 
-    public void setKorting(int newKorting){
+    public void setKorting(double newKorting){
         this.korting = newKorting;
     }
 
@@ -33,7 +33,7 @@ public class Artikel {
         return prijs;
     }
 
-    public int getKorting(){
+    public double getKorting(){
         return korting;
     }
 }

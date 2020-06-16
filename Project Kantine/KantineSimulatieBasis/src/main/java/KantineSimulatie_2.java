@@ -64,6 +64,13 @@ public class KantineSimulatie_2 {
 
     }
 
+    public void dagelijsKortingArtikel(){
+        int randomArtikel = random.nextInt(AANTAL_ARTIKELEN);
+        artikelprijzen[randomArtikel] = artikelprijzen[randomArtikel] * 0.8;
+
+        Artikel kortingsArtikel = new Artikel(artikelnamen[randomArtikel], (int) artikelprijzen[randomArtikel], 0.2);
+    }
+
     public void runVoorbeeld() {
         manager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
@@ -89,12 +96,6 @@ public class KantineSimulatie_2 {
         }
 
         return temp;
-    }
-
-    private void dagelijkseKortingsArtikel(){
-        int randomArtikel = random.nextInt(AANTAL_ARTIKELEN);
-        String kortingsArtikelNaam = artikelnamen[randomArtikel];
-        artikelprijzen[randomArtikel] = artikelprijzen[randomArtikel] * 0.8;
     }
 
     /**

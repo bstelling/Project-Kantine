@@ -18,7 +18,7 @@ public class KantineAanbod {
         for (int i = 0; i < artikelnaam.length; i++) {
             ArrayList<Artikel> artikelen = new ArrayList<Artikel>();
             for (int j = 0; j < hoeveelheid[i]; j++) {
-                artikelen.add(new Artikel(artikelnaam[i], (int)prijs[i]));
+                artikelen.add(new Artikel(artikelnaam[i], (int)prijs[i], 0));
             }
             startVoorraad.put(artikelnaam[i], hoeveelheid[i]);
             prijzen.put(artikelnaam[i], prijs[i]);
@@ -32,7 +32,7 @@ public class KantineAanbod {
         int huidigeHoeveelheid = huidigeVoorraad.size();
         double prijs = prijzen.get(productnaam);
         for (int j = huidigeHoeveelheid; j < startHoeveelheid; j++) {
-            huidigeVoorraad.add(new Artikel(productnaam, (int) prijs));
+            huidigeVoorraad.add(new Artikel(productnaam, (int) prijs, 0));
         }
         aanbod.put(productnaam, huidigeVoorraad);
     }
