@@ -38,15 +38,16 @@ public class Kassa {
         Dienblad dienblad = klant.getDienblad();
         Iterator<Artikel> artikelen = dienblad.getIterator();
         double totaal = 0;
-
+        boolean hasKorting = false;
 
 
         while(artikelen.hasNext())
         {
             aantalKassaArtikelen++;
             Artikel artikel = artikelen.next();
-            if(artikel.getKorting() == 0.2){
+            if(artikel.getKorting() != 0){
                 totaal += artikel.getPrijs() * 0.8;
+                hasKorting = true;
             }
             else {
                 totaal += artikel.getPrijs();
@@ -54,11 +55,13 @@ public class Kassa {
         }
         //kijkt of er korting moet worden gegeven en hoeveel dat dan is.
         // and nog maximum nu kirjgt kantinemedewerker geen geld
-        if(klant instanceof KortingskaartHouder){
-            double korting = totaal * (((KortingskaartHouder)klant).geefKortingsPercentage());
-            if(((KortingskaartHouder)klant).heeftMaximum()){
-                if(korting > ((KortingskaartHouder)klant).geefMaximum()){
-                    korting = ((KortingskaartHouder)klant).geefMaximum();
+        if(!hasKorting) {
+            if (klant instanceof KortingskaartHouder) {
+                double korting = totaal * (((KortingskaartHouder) klant).geefKortingsPercentage());
+                if (((KortingskaartHouder) klant).heeftMaximum()) {
+                    if (korting > ((KortingskaartHouder) klant).geefMaximum()) {
+                        korting = ((KortingskaartHouder) klant).geefMaximum();
+                    }
                 }
             }
         }
