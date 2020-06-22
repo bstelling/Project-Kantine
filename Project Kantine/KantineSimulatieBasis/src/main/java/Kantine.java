@@ -1,9 +1,11 @@
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
     private KantineAanbod kantineaanbod;
+    private javax.persistence.EntityManager manager;
 //    private Persoon klant;
 
     public static double hoeveelheidGeld =0;
@@ -11,9 +13,10 @@ public class Kantine {
     /**
      * Constructor
      */
-    public Kantine() {
+    public Kantine(EntityManager manager) {
         kassarij = new KassaRij();
-        kassa = new Kassa(kassarij);
+        kassa = new Kassa(kassarij, manager);
+        this.manager = manager;
     }
 
     /**
@@ -42,21 +45,15 @@ public class Kantine {
      */
 
     public void loopPakSluitAan(Persoon persoon, String[] artikelnamen) {
-//        Persoon klant = new Persoon(412, "Peter", "de Groot", new Datum(28,3,2001), 'm');
-//        Dienblad dienblad = new Dienblad(klant);
-//
-//        Artikel artikel1 = new Artikel("Brood", 2);
-//        Artikel artikel2 = new Artikel("Koffie", 4);
-//
-//        dienblad.voegToe(artikel1);
-//        dienblad.voegToe(artikel2);
-//
-//        kassarij.sluitAchteraan(dienblad);
-
         //for-loop om door alle artikelnamen te gaan
         for(int i = 0; i < artikelnamen.length; i++){
             //artikel object die bij de artikel string hoort ophalen
             Artikel artikel = kantineaanbod.getArtikel(artikelnamen[i]);
+            //korting artikel
+            if(artikel.getKorting() != 0){
+            int nieuwePrijs = (int) (artikel.getPrijs() * 0.8);
+            artikel.setPrijs(nieuwePrijs);
+            }
             //artikel toevoegen aan het dienblad
             persoon.getDienblad().voegToe(artikel);
             //dienblad achteraan aansluiten

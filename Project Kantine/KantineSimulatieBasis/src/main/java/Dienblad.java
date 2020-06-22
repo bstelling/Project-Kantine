@@ -40,11 +40,11 @@ public class Dienblad {
      *
      * @return de klant
      */
-/*
+
     public Persoon getKlant(){
         return klant;
     }
-*/
+
     /**
      * Methode om artikel aan dienblad toe te voegen
      *
@@ -58,4 +58,5 @@ public class Dienblad {
     public Iterator<Artikel> getIterator(){
         return artikelen.iterator();
     }
+
 }

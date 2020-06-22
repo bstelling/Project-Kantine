@@ -29,7 +29,7 @@ public class Artikel {
         return naam;
     }
 
-    public int getPrijs(){
+    public double getPrijs(){
         return prijs;
     }
 

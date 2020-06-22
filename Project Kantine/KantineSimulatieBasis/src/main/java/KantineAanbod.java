@@ -19,13 +19,13 @@ public class KantineAanbod {
         for (int i = 0; i < artikelnaam.length; i++) {
             ArrayList<Artikel> artikelen = new ArrayList<Artikel>();
             for (int j = 0; j < hoeveelheid[i]; j++) {
-                int randomArtikel = random.nextInt(hoeveelheid.length);
-                if(j == randomArtikel){
-                    artikelen.add(new Artikel(artikelnaam[i], (int)prijs[i], 0.2));
-                }
-                else {
+//                int randomArtikel = random.nextInt(hoeveelheid.length);
+//                if(j == randomArtikel){
+//                    artikelen.add(new Artikel(artikelnaam[i], (int)prijs[i], 0.2));
+//                }
+//                else {
                     artikelen.add(new Artikel(artikelnaam[i], (int) prijs[i], 0));
-                }
+//                }
             }
             startVoorraad.put(artikelnaam[i], hoeveelheid[i]);
             prijzen.put(artikelnaam[i], prijs[i]);

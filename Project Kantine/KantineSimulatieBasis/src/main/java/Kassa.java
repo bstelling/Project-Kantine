@@ -1,3 +1,5 @@
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,15 +13,17 @@ public class Kassa {
     private KassaRij kassarij;
     private double kassaBalans;
     private int aantalKassaArtikelen;
+    private javax.persistence.EntityManager manager;
 
     /**
      * Constructor
      */
-    public Kassa(KassaRij kassarij) {
+    public Kassa(KassaRij kassarij, EntityManager manager) {
         // method body omitted
         this.kassarij = kassarij;
         aantalKassaArtikelen = 0;
         kassaBalans = 0;
+        this.manager = manager;
     }
 
         public Dienblad getDienblad(Persoon persoon)
@@ -33,45 +37,33 @@ public class Kassa {
      *
      * @param klant die moet afrekenen
      */
-    public void rekenAf( Persoon klant )
+    public void rekenAf(Persoon klant)
     {
+        Factuur factuur = new Factuur();
         Dienblad dienblad = klant.getDienblad();
         Iterator<Artikel> artikelen = dienblad.getIterator();
-        double totaal = 0;
-        boolean hasKorting = false;
+        EntityTransaction transaction = null;
+
+        double totaal = factuur.getTotaal();
+        double korting = factuur.getKorting();
 
 
-        while(artikelen.hasNext())
-        {
-            aantalKassaArtikelen++;
-            Artikel artikel = artikelen.next();
-            if(artikel.getKorting() != 0){
-                totaal += artikel.getPrijs() * 0.8;
-                hasKorting = true;
-            }
-            else {
-                totaal += artikel.getPrijs();
-            }
-        }
-        //kijkt of er korting moet worden gegeven en hoeveel dat dan is.
-        // and nog maximum nu kirjgt kantinemedewerker geen geld
-        if(!hasKorting) {
-            if (klant instanceof KortingskaartHouder) {
-                double korting = totaal * (((KortingskaartHouder) klant).geefKortingsPercentage());
-                if (((KortingskaartHouder) klant).heeftMaximum()) {
-                    if (korting > ((KortingskaartHouder) klant).geefMaximum()) {
-                        korting = ((KortingskaartHouder) klant).geefMaximum();
-                    }
-                }
-            }
-        }
 
         try{
             klant.getBetaalwijze().betaal(totaal);
             kassaBalans += totaal;
+            transaction = manager.getTransaction();
+            transaction.begin();
+            manager.persist(totaal);
+            manager.persist(korting);
+            transaction.commit();
         }
         catch(TeWeinigGeldException e){
             System.out.println(klant.getVoornaam()+ " " + klant.getAchternaam()+" kan de artikelen niet betalen.");
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
         }
 
 

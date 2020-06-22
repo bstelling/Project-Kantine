@@ -4,9 +4,11 @@ import java.util.*;
 import javax.persistence.Persistence;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 public class KantineSimulatie_2 {
 
+    private static EntityManager manager;
     // kantine
     private Kantine kantine;
 
@@ -45,7 +47,6 @@ public class KantineSimulatie_2 {
     private int[] aantalArtikelenTotaal;
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
             Persistence.createEntityManagerFactory("KantineSimulatie");
-    private EntityManager manager;
 
 
     /**
@@ -53,7 +54,7 @@ public class KantineSimulatie_2 {
      *
      */
     public KantineSimulatie_2() {
-        kantine = new Kantine();
+        kantine = new Kantine(manager);
         random = new Random();
         int[] hoeveelheden =
                 getRandomArray(AANTAL_ARTIKELEN, MIN_ARTIKELEN_PER_SOORT, MAX_ARTIKELEN_PER_SOORT);
@@ -254,6 +255,14 @@ public class KantineSimulatie_2 {
     public static void main(String[] args){
         KantineSimulatie_2 kantineSimulatie = new KantineSimulatie_2();
         kantineSimulatie.simuleer(7);
+        Query totaalKorting = manager
+                .createQuery("SELECT totaal, korting FROM Factuur");
+        Query omzetKortingPerFactuur = manager
+                .createQuery("SELECT AVG(totaal), korting FROM Factuur");
+        Query top3Omzet = manager
+                .createQuery("SELECT totaal FROM factuur ORDER BY totaal DESC LIMIT 0,3");
+//        .createQuery("SELECT o.school_name, AVG(s.age) FROM Student s JOIN s.studies o "
+//                        + "GROUP BY o.school_name ");
     }
 
 
