@@ -7,8 +7,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 public class KantineSimulatie_2 {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
+            Persistence.createEntityManagerFactory("KantineSimulatie");
+    private EntityManager manager;
 
-    private static EntityManager manager;
     // kantine
     private Kantine kantine;
 
@@ -45,8 +47,7 @@ public class KantineSimulatie_2 {
     private double[] omzet;
     private double[] dagomzet;
     private int[] aantalArtikelenTotaal;
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
-            Persistence.createEntityManagerFactory("KantineSimulatie");
+
 
 
     /**
@@ -54,6 +55,7 @@ public class KantineSimulatie_2 {
      *
      */
     public KantineSimulatie_2() {
+        manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         kantine = new Kantine(manager);
         random = new Random();
         int[] hoeveelheden =
@@ -166,25 +168,39 @@ public class KantineSimulatie_2 {
                 int randomVar = random.nextInt(100);
 
                 //Persoon object aanmaken
-                Persoon p1 = new Persoon();
+                Persoon p1;
+                Dienblad dienblad;
 
                 // maak personen en dienblad aan, koppel ze
                 // en bedenk hoeveel artikelen worden gepakt
                 if(randomVar == 1) {
                     p1 = new KantineMedewerker(1, "Piet", "Friet", new Datum(1, 03, 2001), 'm', 2, false);
+                    Betaalwijze c = new Contant();
+                    p1.setBetaalwijze(c);
+                    c.setSaldo(getRandomValue(3, 50));
                 }
                 else if(randomVar > 1 && randomVar <= 11) {
                     p1 = new Docent(2, "Klaas", "de Klein", new Datum(03, 05, 1992), 'm', "KLKL", "INF");
+                    Betaalwijze c = new Contant();
+                    p1.setBetaalwijze(c);
+                    c.setSaldo(getRandomValue(10, 25));
                 }
-                else
-                    p1 = new Student(3, "Joost", "Proost", new Datum(02, 04, 2002), 'm', 387107);
 
+                else {
+                    p1 = new Student(3, "Joost", "Proost", new Datum(02, 04, 2002), 'm', 387107);
+                    Pinpas p = new Pinpas();
+                    p.setKredietLimiet(10);
+                    p1.setBetaalwijze(p);
+                    p.setSaldo(getRandomValue(6, 40));
+
+
+                }
                 //System.out.println(p1.toString() + "\n");
-                Dienblad dienblad = new Dienblad();
+                dienblad = new Dienblad(p1);
                 //  dienblad.setKlant(p1);
                 p1.pakDienblad(dienblad);
                 //System.out.println(dienblad.getKlant());
-                Betaalwijze betaalwijze;
+             /*   Betaalwijze betaalwijze;
                 String typebetalwijze;
                 int random = getRandomValue(1, 2);
                 if (random == 1) {
@@ -198,7 +214,7 @@ public class KantineSimulatie_2 {
                     typebetalwijze = "pinpas";
                 }
                 p1.setBetaalwijze(betaalwijze);
-                betaalwijze.setSaldo(getRandomValue(3,100));
+                betaalwijze.setSaldo(getRandomValue(10,100)); */
 
 
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
@@ -213,7 +229,7 @@ public class KantineSimulatie_2 {
 
                 // loop de kantine binnen, pak de gewenste
                 // artikelen, sluit aan
-                kantine.loopPakSluitAan(p1, artikelen);
+                kantine.loopPakSluitAan(dienblad, artikelen);
             }
 
             // verwerk rij voor de kassa
@@ -250,19 +266,62 @@ public class KantineSimulatie_2 {
             System.out.println("Op " + dagVanDeWeek[i] + " was de dagomzet: " + gemDagOmzet[i]);
         }
 
+        Query totaalQuery = manager.createNativeQuery("SELECT SUM(totaalbedrag) FROM Factuur f");
+        Query kortingQuery = manager.createNativeQuery("SELECT SUM(kortingsbedrag) FROM Factuur f");
+        Query gemOmzetQuery = manager.createNativeQuery("SELECT AVG(totaalbedrag) FROM Factuur f");
+        Query gemKorting = manager.createNativeQuery("SELECT AVG(kortingsbedrag) FROM Factuur f");
+        Query maxFactuur = manager.createNativeQuery("SELECT totaalbedrag FROM Factuur f ORDER BY totaalbedrag DESC lIMIT 3");
+        Query aantalPerArtikel = manager.createNativeQuery("SELECT count(artikel) FROM Factuurregel f GROUP BY artikel");
+        Query totaalPerDag = manager.createNativeQuery("SELECT count(fr.artikel) FROM Factuurregel fr join Factuur f on fr.factuurnr = f.id GROUP BY f.datum");
+        Query topArtikelen = manager.createNativeQuery("SELECT distinct(artikel) FROM Factuurregel fr ORDER BY artikel DESC LIMIT 3");
+        Query hoogsteOmzetArtikelen = manager.createNativeQuery("SELECT distinct(artikel) FROM Factuurregel fr join Factuur f on fr.factuurnr = f.id ORDER BY totaalbedrag DESC LIMIT 3");
 
+        double rs = (double)totaalQuery.getSingleResult();
+        double rs2 = (double)kortingQuery.getSingleResult();
+        double rs3 = (double)gemOmzetQuery.getSingleResult();
+        double rs4 = (double)gemKorting.getSingleResult();
+        List<Object[]> rs5 = maxFactuur.getResultList();
+        List<Object[]> rs6 = aantalPerArtikel.getResultList();
+        List<Object[]> rs7 = totaalPerDag.getResultList();
+        List<Object[]> rs8 = topArtikelen.getResultList();
+        List<Object[]> rs9 = hoogsteOmzetArtikelen.getResultList();
+
+        System.out.println("Totale omzet: " + (rs-rs2) + ". Toegepaste korting: " + rs2);
+        System.out.println("Gemiddelde omzet per factuur: " + rs3 + ". Gemiddelde toegepaste korting per factuur: " + rs4);
+        for(Object o : rs5){
+            System.out.println("Top factuur bedragen: " + o.toString());
+        }
+
+        for(int y=0; y<5; y++){
+            if(y == 0){
+                System.out.println("Aantal broodjes kaas: " + rs6.get(y));
+            }
+            if(y == 1){
+                System.out.println("Aantal broodjes pindakaas: " + rs6.get(y));
+            }
+            if(y == 2){
+                System.out.println("Aantal appelsap: " + rs6.get(y));
+            }
+            if(y == 3){
+                System.out.println("Aantal koffie: " + rs6.get(y));
+            }
+        }
+
+        for(Object o : rs7){
+            System.out.println("Omzet per dag: " + o.toString());
+        }
+        for(Object o : rs8){
+            System.out.println("Top artikelen: " + o.toString());
+        }
+        for (Object o : rs9) {
+            System.out.println("Top artikelen hoogste omzet: " + o.toString());
+        }
+        manager.close();
+        ENTITY_MANAGER_FACTORY.close();
     }
     public static void main(String[] args){
         KantineSimulatie_2 kantineSimulatie = new KantineSimulatie_2();
         kantineSimulatie.simuleer(7);
-        Query totaalKorting = manager
-                .createQuery("SELECT totaal, korting FROM Factuur");
-        Query omzetKortingPerFactuur = manager
-                .createQuery("SELECT AVG(totaal), korting FROM Factuur");
-        Query top3Omzet = manager
-                .createQuery("SELECT totaal FROM factuur ORDER BY totaal DESC LIMIT 0,3");
-//        .createQuery("SELECT o.school_name, AVG(s.age) FROM Student s JOIN s.studies o "
-//                        + "GROUP BY o.school_name ");
     }
 
 

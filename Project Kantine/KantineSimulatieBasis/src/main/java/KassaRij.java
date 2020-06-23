@@ -3,14 +3,14 @@ import java.util.LinkedList;
 
 public class KassaRij {
 
-    private LinkedList<Persoon> kassaRij;
+    private LinkedList<Dienblad> kassaRij;
 
     /**
      * Constructor
      */
     public KassaRij() {
         // method body omitted
-        kassaRij = new LinkedList<Persoon>();
+        kassaRij = new LinkedList<>();
     }
 
     /**
@@ -18,7 +18,7 @@ public class KassaRij {
      *
      * @param klant
      */
-    public void sluitAchteraan(Persoon klant) {
+    public void sluitAchteraan(Dienblad klant) {
         // method body omitted
         kassaRij.add(klant);
     }
@@ -29,10 +29,13 @@ public class KassaRij {
      *
      * @return Eerste klant in de rij of null
      */
-    public Persoon eerstePersoonInRij() {
+    public Dienblad eerstePersoonInRij() {
         // method body omitted
         if(erIsEenRij()) {
-            return kassaRij.remove(0);
+            Dienblad eerstePersoon = kassaRij.get(0);
+            kassaRij.remove(0);
+            return eerstePersoon;
+
         }
         else{
             return null;

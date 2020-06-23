@@ -1,5 +1,6 @@
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -26,10 +27,10 @@ public class Kassa {
         this.manager = manager;
     }
 
-        public Dienblad getDienblad(Persoon persoon)
-        {
-            return persoon.getDienblad();
-        }
+    public Dienblad getDienblad(Persoon persoon)
+    {
+        return persoon.getDienblad();
+    }
     /**
      * Vraag het aantal artikelen en de totaalprijs op. Tel deze gegevens op bij de controletotalen
      * die voor de kassa worden bijgehouden. De implementatie wordt later vervangen door een echte
@@ -37,42 +38,43 @@ public class Kassa {
      *
      * @param klant die moet afrekenen
      */
-    public void rekenAf(Persoon klant)
+    public void rekenAf(Dienblad klant)
     {
-        Factuur factuur = new Factuur();
-        Dienblad dienblad = klant.getDienblad();
-        Iterator<Artikel> artikelen = dienblad.getIterator();
         EntityTransaction transaction = null;
+        Betaalwijze betaalwijze = klant.getKlant().getBetaalwijze();
+        LocalDate datum = LocalDate.of(2020,6, 23);
+        Factuur factuur = new Factuur(klant, datum);
 
-        double totaal = factuur.getTotaal();
-        double korting = factuur.getKorting();
 
 
 
         try{
-            klant.getBetaalwijze().betaal(totaal);
-            kassaBalans += totaal;
+
             transaction = manager.getTransaction();
             transaction.begin();
-            manager.persist(totaal);
-            manager.persist(korting);
+            betaalwijze.betaal(factuur.getTotaal() - factuur.getKorting());
+            kassaBalans += factuur.getTotaal();
+           aantalKassaArtikelen += factuur.getAantalArtikelen(); //aantal producten van de klant bij totaal op
+            manager.persist(factuur);
             transaction.commit();
         }
         catch(TeWeinigGeldException e){
-            System.out.println(klant.getVoornaam()+ " " + klant.getAchternaam()+" kan de artikelen niet betalen.");
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            System.out.println(klant.getKlant().getVoornaam()+ " " + klant.getKlant().getAchternaam()+" kan de artikelen niet betalen.");
+
+            }
+
         }
 
 
 
-    }
+
 
 
     //klant.getAantalArtikelen();
-        //klant.getTotaalPrijs();
+    //klant.getTotaalPrijs();
 
 //        kassaBalans += klant.getTotaalPrijs();
 //        aantalKassaArtikelen += klant.getAantalArtikelen();

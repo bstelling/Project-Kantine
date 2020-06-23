@@ -10,7 +10,7 @@ public class Dienblad {
      */
     public Dienblad() {
         // method body omitted
-        artikelen = new Stack<Artikel>();
+        artikelen = new Stack<>();
     }
 
     /**
@@ -18,11 +18,12 @@ public class Dienblad {
      *
      * @param klant die je toe wilt voegen.
      */
-    /*
-    public Dienblad(Persoon klant){
-        setKlant(klant);
+
+    public Dienblad(Persoon klant) {
+    this.klant = klant;
+    artikelen = new Stack<>();
     }
-*/
+
 
 
     /**
@@ -30,11 +31,11 @@ public class Dienblad {
      *
      * @param newKlant die je wilt setten.
      */
-/*
+
     public void setKlant(Persoon newKlant){
-        this.klant = newKlant;
+        this.klant = klant;
     }
-*/
+
     /**
      * Methode om een klant terug te geven; getter
      *
@@ -55,8 +56,7 @@ public class Dienblad {
         artikelen.push(artikel);
     }
 
-    public Iterator<Artikel> getIterator(){
+    public Iterator<Artikel> getDienblad(){
         return artikelen.iterator();
     }
-
 }

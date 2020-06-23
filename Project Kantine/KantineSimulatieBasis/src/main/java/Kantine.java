@@ -5,7 +5,7 @@ public class Kantine {
     private Kassa kassa;
     private KassaRij kassarij;
     private KantineAanbod kantineaanbod;
-    private javax.persistence.EntityManager manager;
+    private EntityManager manager;
 //    private Persoon klant;
 
     public static double hoeveelheidGeld =0;
@@ -14,10 +14,13 @@ public class Kantine {
      * Constructor
      */
     public Kantine(EntityManager manager) {
+        this.manager = manager;
         kassarij = new KassaRij();
         kassa = new Kassa(kassarij, manager);
-        this.manager = manager;
+
     }
+
+
 
     /**
      * Setter om de kantineaanbod variabele te setten.
@@ -44,20 +47,20 @@ public class Kantine {
      * voor de kassa.
      */
 
-    public void loopPakSluitAan(Persoon persoon, String[] artikelnamen) {
+    public void loopPakSluitAan(Dienblad dienblad, String[] artikelnamen) {
         //for-loop om door alle artikelnamen te gaan
         for(int i = 0; i < artikelnamen.length; i++){
             //artikel object die bij de artikel string hoort ophalen
             Artikel artikel = kantineaanbod.getArtikel(artikelnamen[i]);
-            //korting artikel
+         /*   //korting artikel
             if(artikel.getKorting() != 0){
-            int nieuwePrijs = (int) (artikel.getPrijs() * 0.8);
-            artikel.setPrijs(nieuwePrijs);
-            }
+                int nieuwePrijs = (int) (artikel.getPrijs() * 0.8);
+                artikel.setPrijs(nieuwePrijs);
+            } */
             //artikel toevoegen aan het dienblad
-            persoon.getDienblad().voegToe(artikel);
+            dienblad.voegToe(artikel);
             //dienblad achteraan aansluiten
-            kassarij.sluitAchteraan(persoon);
+            kassarij.sluitAchteraan(dienblad);
         }
     }
 
